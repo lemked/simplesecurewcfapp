@@ -13,7 +13,7 @@ namespace Service
         {
             using (var host = new ServiceHost(typeof(WcfService)))
             {
-                var address = new Uri("https://localhost:8999/MyService");
+                var address = new Uri("http://localhost:9000/MyService");
                 var binding = new BasicHttpBinding();
                 host.AddServiceEndpoint(typeof(IWcfService), binding, address);
 
