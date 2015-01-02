@@ -9,7 +9,10 @@ namespace Client
     {
         static void Main(string[] args)
         {
-            var address = new EndpointAddress(new Uri("http://localhost:9000/MyService"));
+            Console.Write("Enter server address: ");
+            var hostAddress = Console.ReadLine();
+
+            var address = new EndpointAddress(new Uri(string.Format("http://{0}:9000/MyService", hostAddress)));
             var binding = new BasicHttpBinding();
             var factory = new ChannelFactory<IWcfService>(binding, address);
 
