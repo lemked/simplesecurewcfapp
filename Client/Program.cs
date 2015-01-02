@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ServiceModel;
-
+using System.ServiceModel.Security;
 using Service;
 
 namespace Client
@@ -12,9 +12,13 @@ namespace Client
             Console.Write("Enter server address: ");
             var hostAddress = Console.ReadLine();
 
-            var address = new EndpointAddress(new Uri(string.Format("http://{0}:9000/MyService", hostAddress)));
-            var binding = new BasicHttpBinding();
+            var address = new EndpointAddress(new Uri(string.Format("https://{0}:9000/MyService", hostAddress)));
+            var binding = new BasicHttpsBinding(BasicHttpsSecurityMode.TransportWithMessageCredential);
+
             var factory = new ChannelFactory<IWcfService>(binding, address);
+            factory.Credentials.UserName.UserName = "myUser";
+            factory.Credentials.UserName.Password = "myPassword";
+            //factory.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.None;
 
             IWcfService host = factory.CreateChannel();
 

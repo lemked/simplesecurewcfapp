@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
+using System.ServiceModel.Security;
 
 namespace Service
 {
@@ -13,8 +11,18 @@ namespace Service
         {
             using (var host = new ServiceHost(typeof(WcfService)))
             {
-                var address = new Uri("http://localhost:9000/MyService");
-                var binding = new BasicHttpBinding();
+                var address = new Uri("https://localhost:9000/MyService");
+                var binding = new BasicHttpsBinding(BasicHttpsSecurityMode.TransportWithMessageCredential);
+                binding.Security.Message.ClientCredentialType = BasicHttpMessageCredentialType.UserName;
+
+                host.Credentials.UserNameAuthentication.UserNamePasswordValidationMode = UserNamePasswordValidationMode.Custom;
+                host.Credentials.UserNameAuthentication.CustomUserNamePasswordValidator = new CredentialsValidator();
+                //host.Credentials.ServiceCertificate.Certificate. = X509CertificateValidationMode.None;
+
+                // Attach a Certificate from the Certificate Store to the HTTP Binding
+                string certThumbprint = "a5394ac183ef41da4ac99856de426087267e9f64";
+                host.Credentials.ServiceCertificate.SetCertificate(StoreLocation.LocalMachine, StoreName.My, X509FindType.FindByThumbprint, certThumbprint);
+
                 host.AddServiceEndpoint(typeof(IWcfService), binding, address);
 
                 host.Open();
