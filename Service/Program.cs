@@ -17,7 +17,6 @@ namespace Service
 
                 host.Credentials.UserNameAuthentication.UserNamePasswordValidationMode = UserNamePasswordValidationMode.Custom;
                 host.Credentials.UserNameAuthentication.CustomUserNamePasswordValidator = new CredentialsValidator();
-                //host.Credentials.ServiceCertificate.Certificate. = X509CertificateValidationMode.None;
 
                 // Attach a Certificate from the Certificate Store to the HTTP Binding
                 string certThumbprint = "a5394ac183ef41da4ac99856de426087267e9f64";

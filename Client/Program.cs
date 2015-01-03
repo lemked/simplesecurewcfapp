@@ -14,11 +14,15 @@ namespace Client
 
             var address = new EndpointAddress(new Uri(string.Format("https://{0}:9000/MyService", hostAddress)));
             var binding = new BasicHttpsBinding(BasicHttpsSecurityMode.TransportWithMessageCredential);
-
             var factory = new ChannelFactory<IWcfService>(binding, address);
-            factory.Credentials.UserName.UserName = "myUser";
-            factory.Credentials.UserName.Password = "myPassword";
-            //factory.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.None;
+
+            Console.Write("Enter username: ");
+            var username = Console.ReadLine();
+            factory.Credentials.UserName.UserName = username;
+
+            Console.Write("Enter password: ");
+            var password = Console.ReadLine();
+            factory.Credentials.UserName.Password = password;
 
             IWcfService host = factory.CreateChannel();
 

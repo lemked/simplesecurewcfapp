@@ -6,7 +6,8 @@ namespace Service
     {
         public string Echo(string input)
         {
-            return String.Format("You've entered: {0}", input);
+            Console.WriteLine("Received from client: {0}", input);
+            return input;
         }
     }
 }
